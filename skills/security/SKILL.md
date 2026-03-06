@@ -8,6 +8,19 @@ metadata: {"clawdbot":{"emoji":"🔒"}}
 
 确保所有 Skills 和配置遵循安全最佳实践。
 
+## 环境变量
+
+所有敏感配置通过环境变量管理，加载方式：
+
+```bash
+# 加载环境变量（必须在使用 API 前执行）
+source /root/.openclaw/workspace/scripts/load-env.sh
+
+# 验证
+echo "MINIMAX_API_KEY: $MINIMAX_API_KEY"
+echo "SERVER_IP: $SERVER_IP"
+```
+
 ## 核心规则
 
 ### 1. 禁止在 Skills 中记录明文 API Key

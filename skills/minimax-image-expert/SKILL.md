@@ -6,167 +6,71 @@ metadata: {"clawdbot":{"emoji":"🎨","requires":{"bins":["curl","jq","base64"]}
 
 # MiniMax 图像生成专家 Agent
 
-你是 MiniMax 开放平台图像生成服务的专家 Agent。
+## 正确获取 API Key 的方法（必须遵守！否则图片生成会失败！）
 
-## 核心能力
-
-1. **文生图 (Text to Image)** - 根据文字描述生成图片
-2. **图生图 (Image to Image)** - 结合参考图生成图片
-
-## API 文档
-
-参考：https://platform.minimaxi.com/docs/guides/image-generation
-
-### 基本信息
-
-- **API 端点**: `https://api.minimaxi.com/v1/image_generation`
-- **模型**: `image-01`
-- **认证**: Bearer Token (环境变量 `MINIMAX_API_KEY`)
-
-### API Key
-
-API Key 配置在独立配置文件中：`/root/.openclaw/workspace/.config/api-keys.json`
-
-## 文生图 (Text to Image)
-
-### 请求示例
-
+**步骤 1: 加载环境变量**
 ```bash
-curl -s "https://api.minimaxi.com/v1/image_generation" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $MINIMAX_API_KEY" \
-  -d '{
-    "model": "image-01",
-    "prompt": "你的详细描述",
-    "aspect_ratio": "16:9",
-    "response_format": "base64"
-  }' | jq -r '.data.image_base64[0]' | base64 -d > output.jpg
+source /root/.openclaw/workspace/scripts/load-env.sh
 ```
 
-### 参数说明
-
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `model` | string | ✅ | 固定为 `image-01` |
-| `prompt` | string | ✅ | 详细的图像描述（建议英文效果更好） |
-| `aspect_ratio` | string | ❌ | 宽高比：`1:1`, `16:9`, `9:16`, `4:3`, `3:4` |
-| `response_format` | string | ❌ | 返回格式：`base64` 或 `url` |
-
-### 常用 aspect_ratio
-
-- `1:1` - 方形（社交媒体头像、帖子）
-- `16:9` - 宽屏（横版图片）
-- `9:16` - 竖屏（手机壁纸、故事）
-- `4:3` - 标准照片比例
-- `3:4` -  portrait 人像比例
-
-## 图生图 (Image to Image)
-
-### 请求示例
-
+**步骤 2: 验证环境变量**
 ```bash
-curl -s "https://api.minimaxi.com/v1/image_generation" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $MINIMAX_API_KEY" \
-  -d '{
-    "model": "image-01",
-    "prompt": "描述你想要的图片",
-    "aspect_ratio": "16:9",
-    "subject_reference": [
-      {
-        "type": "character",
-        "image_file": "参考图URL"
-      }
-    ],
-    "response_format": "base64"
-  }' | jq -r '.data.image_base64[0]' | base64 -d > output.jpg
+echo "API Key: $MINIMAX_API_KEY"
 ```
+如果输出不是以 `sk-` 开头的长字符串，说明加载失败！
 
-### subject_reference 参数
-
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `type` | string | 目前支持 `character`（角色保持） |
-| `image_file` | string | 参考图的 URL（支持网络图片） |
-
-## 错误处理
-
-### 常见错误码
-
-| 错误码 | 说明 | 解决方案 |
-|--------|------|----------|
-| 1004 | 认证失败 | 检查 API Key 是否正确 |
-| 1007 | 参数错误 | 检查请求参数格式 |
-| 2013 | 提示词违规 | 修改提示词，避免敏感内容 |
-| 2019 | 速率限制 | 等待后重试 |
-
-### 错误处理示例
-
-```python
-import requests
-
-response = requests.post(url, headers=headers, json=payload)
-if response.status_code != 200:
-    error = response.json()
-    print(f"错误: {error.get('base_resp', {}).get('status_msg')}")
-    # 向用户解释错误原因
-```
-
-## 结果处理
-
-API 返回格式：
-```json
-{
-  "base_resp": {"status_code": 0, "status_msg": "success"},
-  "data": {
-    "image_base64": ["base64编码的图片..."]
-  }
-}
-```
-
-### 解码保存
-
+**步骤 3: 调用 API**
 ```bash
-# 单张图片
-jq -r '.data.image_base64[0]' | base64 -d > image.jpg
-
-# 多张图片
-for i in $(jq -r '.data.image_base64 | length' response.json); do
-    jq -r ".data.image_base64[$i]" | base64 -d > "image-$i.jpg"
-done
-```
-
-## 使用流程
-
-1. **理解用户需求** - 仔细分析用户的描述
-2. **构建 Prompt** - 将描述转化为英文提示词（效果更好）
-3. **选择参数** - 确定 aspect_ratio 等参数
-4. **调用 API** - 执行生成请求
-5. **错误处理** - 检查响应，处理可能的错误
-6. **返回结果** - 将生成的图片发送给用户
-
-## 提示词优化技巧
-
-1. **使用英文** - 英文提示词效果通常更好
-2. **详细描述** - 包括主体、风格、光线、氛围等
-3. **添加质量词** - 如 `8K`, `ultra-detailed`, `photorealistic`, `cinematic`
-4. **指定风格** - 如 `anime`, `oil painting`, `watercolor`, `3D render`
-
-## 生成命令模板
-
-```bash
-# 快速生成（英文 prompt）
 curl -s "https://api.minimaxi.com/v1/image_generation" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${MINIMAX_API_KEY}" \
-  -d '{"model":"image-01","prompt":"YOUR_PROMPT","aspect_ratio":"16:9","response_format":"base64"}' \
-  | jq -r '.data.image_base64[0]' | base64 -d > /root/.openclaw/workspace/data/generated.jpg
+  -d '{"model":"image-01","prompt":"YOUR_PROMPT","aspect_ratio":"1:1","response_format":"base64"}'
 ```
 
-## 发送图片给用户
+---
 
-生成图片后，使用 `<qqimg>` 标签发送：
+## 完整生成流程
 
+```bash
+# 1. 加载环境变量（必须！）
+source /root/.openclaw/workspace/scripts/load-env.sh
+
+# 2. 验证
+if [ -z "$MINIMAX_API_KEY" ]; then
+    echo "错误：环境变量未加载！"
+    exit 1
+fi
+
+# 3. 生成图片
+FILENAME="image_$(date +%s).jpg"
+
+RESPONSE=$(curl -s "https://api.minimaxi.com/v1/image_generation" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ${MINIMAX_API_KEY}" \
+  -d "{\"model\":\"image-01\",\"prompt\":\"YOUR_PROMPT\",\"aspect_ratio\":\"1:1\",\"response_format\":\"base64\"}")
+
+# 4. 检查结果
+STATUS=$(echo "$RESPONSE" | jq -r '.base_resp.status_msg')
+if [ "$STATUS" != "success" ]; then
+    echo "API Error: $STATUS"
+    exit 1
+fi
+
+# 5. 保存
+echo "$RESPONSE" | jq -r '.data.image_base64[0]' | base64 -d > /root/.openclaw/workspace/data/${FILENAME}
+
+# 6. 验证文件
+if [ ! -s /root/.openclaw/workspace/data/${FILENAME} ]; then
+    echo "生成失败！"
+    exit 1
+fi
+
+# 7. 发送
+<qqimg>/root/.openclaw/workspace/data/${FILENAME}</qqimg>
 ```
-<qqimg>/root/.openclaw/workspace/data/generated.jpg</qqimg>
-```
+
+## API 信息
+
+- 端点: `https://api.minimaxi.com/v1/image_generation`
+- 模型: `image-01`
+- 认证: 使用 `${MINIMAX_API_KEY}` 环境变量

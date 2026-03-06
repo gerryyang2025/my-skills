@@ -29,7 +29,26 @@ metadata: {"clawdbot":{"emoji":"🎵","requires":{"bins":["curl","jq"]}}}
 
 ### API Key
 
-API Key 配置在独立配置文件中：`/root/.openclaw/workspace/.config/api-keys.json`
+**重要**：必须使用环境变量加载 API Key！
+
+#### 步骤 1: 加载环境变量
+```bash
+source /root/.openclaw/workspace/scripts/load-env.sh
+```
+
+#### 步骤 2: 验证环境变量
+```bash
+echo "API Key: $MINIMAX_API_KEY"
+```
+如果输出不是以 `sk-` 开头的长字符串，说明加载失败！
+
+#### 步骤 3: 调用 API
+```bash
+curl -s "https://api.minimax.chat/v1/music_generation" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ${MINIMAX_API_KEY}" \
+  -d '{"model":"music-2.5+","prompt":"YOUR_PROMPT","lyrics":"YOUR_LYRICS"}'
+```
 
 ---
 
@@ -96,7 +115,7 @@ curl -s "https://api.minimax.chat/v1/lyrics_generation" \
 
 **请求示例**:
 ```bash
-curl -s "https://api.minimax.chat/v1/lyrics_generation" \
+curl -s "https://api.minimax.chat/v1/music_generation" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ${MINIMAX_API_KEY}" \
   -d '{

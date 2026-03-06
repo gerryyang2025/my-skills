@@ -12,7 +12,7 @@ metadata: {"clawdbot":{"emoji":"🌐"}}
 
 - **端口**: 8080
 - **目录**: /root/.openclaw/workspace/data
-- **访问地址**: `http://{IP}:8080/`（IP 配置在 `/root/.openclaw/workspace/.config/server.json`）
+- **访问地址**: `http://${SERVER_IP}:${SERVER_PORT}/`（使用环境变量，需要先执行 `source /root/.openclaw/workspace/scripts/load-env.sh`）
 
 ## 快速使用
 
@@ -80,9 +80,9 @@ systemctl start openclaw-http.service
 ## 访问服务
 
 ```
-http://{IP}:8080/
+http://${SERVER_IP}:${SERVER_PORT}/
 ```
-（IP 配置在 `/root/.openclaw/workspace/.config/server.json`）
+（使用环境变量，需要先执行 `source /root/.openclaw/workspace/scripts/load-env.sh`）
 
 ---
 
