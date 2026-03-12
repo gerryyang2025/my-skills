@@ -1,124 +1,158 @@
 # My AI Skills
 
-Personal AI Skills tool collection for Claude Code and other AI agents.
+Personal AI Skills collection for Cursor and other AI agents. Each skill is a `SKILL.md` with YAML frontmatter (`name`, `description`) that teaches the agent when and how to perform specialized tasks.
 
 ## Introduction
 
-This repository contains a collection of AI skills (agents) that extend the capabilities of Claude Code and similar AI assistants. These skills provide specialized knowledge and tools for various tasks.
+This repository contains **Agent Skills**: markdown-based instructions that extend AI assistants with domain knowledge and workflows. The agent uses each skill’s `description` to decide when to apply it, and the body of `SKILL.md` for step-by-step guidance.
 
-The skills are divided into two categories:
-- **ClawHub**: Installed from ClawHub marketplace
-- **Custom**: User-defined/customized skills
+Skills are grouped into:
+- **Skillhub**: From the Skillhub marketplace (see table below)
+- **Custom**: User-defined skills for personal or project use
 
 ---
 
-## ClawHub Skills
+## Skillhub Skills
 
-Skills installed from the [ClawHub](https://clawhub.club/) marketplace.
+Skills from the [Skillhub](https://skillhub.tencent.com/) marketplace.
 
 | Skill | Description |
 |-------|-------------|
-| [summarize](./skills/summarize/) | CLI tool to summarize URLs, files, PDFs, images, audio, and YouTube videos |
-| [agent-browser](./skills/agent-browser/) | Rust-based headless browser automation for AI agents |
-| [find-skills](./skills/find-skills/) | Discover and install agent skills from the open ecosystem |
-| [obsidian](./skills/obsidian/) | Work with Obsidian vaults via obsidian-cli |
-| [notion](./skills/notion/) | Notion API integration for pages, databases, and blocks |
-| [weather](./skills/weather/) | Get current weather and forecasts (no API key required) |
-| [tavily-search](./skills/tavily-search/) | AI-optimized web search via Tavily API |
-| [github](./skills/github/) | Interact with GitHub using the `gh` CLI |
-| [self-improving](./skills/self-improving/) | Self-reflection + self-criticism + self-learning agent |
+| [summarize](./summarize/) | Summarize URLs, files, PDFs, images, audio, and YouTube via CLI |
+| [agent-browser](./agent-browser/) | Rust-based headless browser automation for AI agents |
+| [find-skills](./find-skills/) | Discover and install agent skills from the open ecosystem |
+| [obsidian](./obsidian/) | Work with Obsidian vaults via obsidian-cli |
+| [notion](./notion/) | Notion API for pages, databases, and blocks |
+| [weather](./weather/) | Current weather and forecasts (no API key required) |
+| [tavily-search](./tavily-search/) | AI-optimized web search via Tavily API |
+| [github](./github/) | Interact with GitHub using the `gh` CLI |
+| [tencent-docs](./tencent-docs/) | 腾讯文档：创建/查询/编辑智能文档、表格、幻灯片、思维导图等 |
+| [tencentcloud-lighthouse-skill](./tencentcloud-lighthouse-skill/) | 腾讯云轻量应用服务器：mcporter/MCP、实例、监控、防火墙、快照、TAT |
 
 ---
 
 ## Custom Skills
 
-User-defined skills tailored for personal use.
+User-defined skills for personal workflows.
 
 | Skill | Description |
 |-------|-------------|
-| [multi-search-engine](./skills/multi-search-engine/) | Multi search engine integration with 17 engines (8 CN + 9 Global) |
-| [minimax-image-expert](./skills/minimax-image-expert/) | MiniMax image generation expert (image-01 model) |
-| [minimax-music-expert](./skills/minimax-music-expert/) | MiniMax music creation expert (Music 2.5 model) |
-| [us-stock-analyst](./skills/us-stock-analyst/) | US stock momentum analyst with daily reports |
-| [http-fileserver](./skills/http-fileserver/) | HTTP file server management |
-| [security](./skills/security/) | Security best practices for skills and configuration |
+| [multi-search-engine](./multi-search-engine/) | 17 search engines (8 CN + 9 global), advanced operators, WolframAlpha |
+| [minimax-image-expert](./minimax-image-expert/) | MiniMax image generation (image-01, 文生图/图生图) |
+| [minimax-music-expert](./minimax-music-expert/) | MiniMax music creation (Music 2.5, 歌词与音乐生成) |
+| [minimax-video-expert](./minimax-video-expert/) | MiniMax 视频生成（文生视频、图生视频、首尾帧、主体参考、模板） |
+| [us-stock-analyst](./us-stock-analyst/) | US stock momentum analyst with daily reports |
+| [hk-stock-analyst](./hk-stock-analyst/) | 港股动量分析师，每日报告与量化策略 |
+| [news-observer](./news-observer/) | 今日要闻深度解读生成器（财经/政治/科技/GitHub 热门） |
+| [obsidian-publisher](./obsidian-publisher/) | 将 Obsidian 笔记发布为静态网站 |
+| [http-fileserver](./http-fileserver/) | HTTP 文件服务器管理（端口与目录配置） |
+| [security](./security/) | 安全规范：Skills 与配置最佳实践，防止敏感信息泄露 |
 
 ---
 
 ## Skills by Category
 
 ### Search & Research
-- multi-search-engine (Custom) - 17 search engines integration
-- tavily-search (ClawHub) - AI-optimized search
-- summarize (ClawHub) - Content summarization
+- multi-search-engine (Custom) — 17 搜索引擎
+- tavily-search (Skillhub) — AI 优化搜索
+- summarize (Skillhub) — 内容摘要
 
 ### Browser & Automation
-- agent-browser (ClawHub) - Browser automation
-- http-fileserver (Custom) - File serving
+- agent-browser (Skillhub) — 浏览器自动化
+- http-fileserver (Custom) — 文件服务
 
-### Productivity Tools
-- github (ClawHub) - GitHub CLI integration
-- obsidian (ClawHub) - Obsidian notes
-- notion (ClawHub) - Notion integration
-- weather (ClawHub) - Weather information
-- find-skills (ClawHub) - Skill discovery
+### Productivity & Docs
+- github (Skillhub) — GitHub CLI
+- obsidian (Skillhub) — Obsidian 笔记
+- obsidian-publisher (Custom) — 笔记发布为静态站
+- notion (Skillhub) — Notion
+- tencent-docs (Custom) — 腾讯文档
 
 ### AI Content Generation
-- minimax-image-expert (Custom) - Image generation
-- minimax-music-expert (Custom) - Music generation
+- minimax-image-expert (Custom) — 图像生成
+- minimax-music-expert (Custom) — 音乐生成
+- minimax-video-expert (Custom) — 视频生成
 
 ### Financial & Analysis
-- us-stock-analyst (Custom) - US stock analysis
+- us-stock-analyst (Custom) — 美股动量
+- hk-stock-analyst (Custom) — 港股动量
 
-### Agent Enhancement
-- self-improving (ClawHub) - Self-learning agent
-- security (Custom) - Security guidelines
+### News & Trends
+- news-observer (Custom) — 今日要闻解读
+
+### Infrastructure & Cloud
+- tencentcloud-lighthouse-skill (Custom) — 腾讯云轻量服务器
+
+### Agent & Security
+- find-skills (Skillhub) — 技能发现与安装
+- self-improving (Skillhub) — 自反思与自学习
+- security (Custom) — 安全规范
+- weather (Skillhub) — 天气
+
+---
+
+## Skill Format (Cursor Agent Skills)
+
+Each skill lives in a directory with a `SKILL.md` file:
+
+- **YAML frontmatter**: `name` (≤64 chars, lowercase/hyphens) and `description` (what the skill does and when the agent should use it).
+- **Body**: Instructions, examples, and optional links to `reference.md` or `examples.md`.
+
+The agent uses `description` for discovery and the rest of `SKILL.md` for execution. Keep `SKILL.md` under ~500 lines; put long reference material in separate files.
 
 ---
 
 ## Quick Start
 
 ```bash
-# Clone the repository
 git clone https://github.com/yourusername/my-skills.git
-
-# Navigate to the directory
 cd my-skills
 ```
+
+Use skills as a **project skill** by symlinking or copying the desired skill directory into your project’s `.cursor/skills/`, or as **personal skills** in `~/.cursor/skills/`. Cursor will load `SKILL.md` from those locations.
+
+---
 
 ## Directory Structure
 
 ```
 my-skills/
-├── skills/
-│   ├── multi-search-engine/      # Custom
-│   ├── summarize/                # ClawHub
-│   ├── agent-browser/            # ClawHub
-│   ├── find-skills/              # ClawHub
-│   ├── obsidian/                # ClawHub
-│   ├── notion/                   # ClawHub
-│   ├── weather/                  # ClawHub
-│   ├── tavily-search/           # ClawHub
-│   ├── github/                   # ClawHub
-│   ├── self-improving/          # ClawHub
-│   ├── minimax-image-expert/     # Custom
-│   ├── minimax-music-expert/     # Custom
-│   ├── us-stock-analyst/        # Custom
-│   ├── http-fileserver/          # Custom
-│   └── security/                 # Custom
+├── summarize/                    # Skillhub
+├── agent-browser/                # Skillhub
+├── find-skills/                  # Skillhub
+├── obsidian/                     # Skillhub
+├── notion/                       # Skillhub
+├── weather/                      # Skillhub
+├── tavily-search/                # Skillhub
+├── github/                       # Skillhub
+├── self-improving/               # Skillhub
+├── multi-search-engine/          # Custom
+├── minimax-image-expert/         # Custom
+├── minimax-music-expert/         # Custom
+├── minimax-video-expert/         # Custom
+├── us-stock-analyst/             # Custom
+├── hk-stock-analyst/             # Custom
+├── news-observer/                # Custom
+├── obsidian-publisher/           # Custom
+├── tencent-docs/                 # Custom
+├── tencentcloud-lighthouse-skill/# Custom
+├── http-fileserver/              # Custom
+├── security/                     # Custom
 ├── README.md
 ├── LICENSE
 ├── CONTRIBUTING.md
 └── CHANGELOG.md
 ```
 
+---
+
 ## Usage
 
-Each skill directory contains its own `SKILL.md` with detailed documentation. Refer to the specific skill's documentation for usage instructions.
+Each skill directory contains a `SKILL.md` with usage and behavior. Refer to the specific skill’s `SKILL.md` for details.
 
 ## Contributing
 
-Issues and Pull Requests are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+Issues and Pull Requests are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
