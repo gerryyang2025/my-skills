@@ -17,14 +17,14 @@ obsidian-publisher/
 ### 1. 安装依赖
 
 ```bash
-cd /root/.openclaw/workspace/quartz-output
+cd /root/.openclaw/workspace/codes/obsidian-publisher
 npm install marked
 ```
 
 ### 2. 生成静态网站
 
 ```bash
-cd /root/.openclaw/workspace/quartz-output
+cd /root/.openclaw/workspace/codes/obsidian-publisher
 node generate.js
 ```
 
@@ -32,7 +32,7 @@ node generate.js
 
 ```bash
 # 复制到 HTTP 服务目录
-cp -r /root/.openclaw/workspace/quartz-output /root/.openclaw/workspace/data/obsidian
+cp -r /root/.openclaw/workspace/codes/obsidian-publisher/*.html /root/.openclaw/workspace/data/obsidian/
 ```
 
 ### 4. 访问
@@ -55,7 +55,7 @@ const VAULT_DIR = "/你的笔记目录路径";
 
 ### 输出目录
 
-默认输出到 `/root/.openclaw/workspace/quartz-output`。
+默认输出到 `/root/.openclaw/workspace/codes/obsidian-publisher`。
 
 修改 `generate.js` 中的 `OUTPUT_DIR`：
 
@@ -123,7 +123,7 @@ tags: [港股, 每日报告, 动量报告, 梁文涛]
 
 ```bash
 # 1. 生成静态网页
-cd /root/.openclaw/workspace/quartz-output
+cd /root/.openclaw/workspace/codes/obsidian-publisher
 node generate.js
 
 # 2. 复制到 HTTP 服务目录
@@ -185,13 +185,13 @@ cp *.html /root/.openclaw/workspace/data/obsidian/
 
 ### 方式二：GitHub Pages
 
-1. 将输出目录 `quartz-output` 初始化为 git 仓库
+1. 将输出目录 `obsidian-publisher` 初始化为 git 仓库
 2. 推送到 GitHub
 3. 启用 GitHub Pages
 
 ### 方式三：对象存储
 
-1. 将 `quartz-output` 目录打包
+1. 将 `obsidian-publisher` 目录打包
 2. 上传到阿里云 OSS / 腾讯云 COS
 3. 配置自定义域名
 
@@ -207,7 +207,7 @@ cp *.html /root/.openclaw/workspace/data/obsidian/
 
 ```bash
 # 每天凌晨 2 点自动生成并部署
-0 2 * * * cd /root/.openclaw/workspace/quartz-output && node generate.js && cp -r /root/.openclaw/workspace/quartz-output /root/.openclaw/workspace/data/obsidian
+0 2 * * * cd /root/.openclaw/workspace/codes/obsidian-publisher && node generate.js && cp *.html /root/.openclaw/workspace/data/obsidian/
 ```
 
 ## 故障排除
@@ -216,7 +216,7 @@ cp *.html /root/.openclaw/workspace/data/obsidian/
 
 检查生成是否成功：
 ```bash
-ls -la /root/.openclaw/workspace/quartz-output/
+ls -la /root/.openclaw/workspace/codes/obsidian-publisher/
 ```
 
 ### 中文文件名无法访问
@@ -234,7 +234,7 @@ curl -s http://127.0.0.1:8080/obsidian/ | head -5
 
 重新运行生成脚本：
 ```bash
-cd /root/.openclaw/workspace/quartz-output && node generate.js
+cd /root/.openclaw/workspace/codes/obsidian-publisher && node generate.js
 ```
 
 ### 外网无法访问
