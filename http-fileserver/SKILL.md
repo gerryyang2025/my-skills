@@ -32,6 +32,61 @@ systemctl stop openclaw-http.service
 
 ---
 
+## 常用命令
+
+| 操作 | 命令 |
+|------|------|
+| 启动 | `systemctl start openclaw-http.service` |
+| 停止 | `systemctl stop openclaw-http.service` |
+| 状态 | `systemctl status openclaw-http.service` |
+| 重启 | `systemctl restart openclaw-http.service` |
+| 日志 | `journalctl -u openclaw-http.service -n 50` |
+
+---
+
+## 加固配置（推荐）
+
+生产环境建议使用加固后的 systemd 服务配置：
+
+```bash
+cat > /etc/systemd/system/openclaw-http.service << 'EOF'
+[Unit]
+Description=OpenClaw HTTP File Server
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/.openclaw/workspace/data
+# 启动前清理占用端口的进程
+ExecStartPre=-/bin/bash -c 'lsof -ti:8080 | xargs -r kill -9 || true'
+ExecStart=/usr/bin/python3 -m http.server 8080 --bind 0.0.0.0
+# 失败时重启，防止无限重启
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl restart openclaw-http.service
+```
+
+### 加固说明
+
+| 配置 | 作用 |
+|------|------|
+| `ExecStartPre` | 启动前自动清理占用端口的旧进程 |
+| `StartLimitBurst=5` | 5分钟内最多重启5次，防止无限重启 |
+| `Restart=on-failure` | 仅在失败时重启，避免正常stop触发重启 |
+
+---
+
 ## 手动配置步骤
 
 ### 步骤 1：创建 systemd 服务文件
@@ -66,23 +121,41 @@ systemctl start openclaw-http.service
 
 ---
 
-## 常用命令
-
-| 操作 | 命令 |
-|------|------|
-| 启动 | `systemctl start openclaw-http.service` |
-| 停止 | `systemctl stop openclaw-http.service` |
-| 状态 | `systemctl status openclaw-http.service` |
-| 重启 | `systemctl restart openclaw-http.service` |
-
----
-
 ## 访问服务
 
 ```
 http://${SERVER_IP}:${SERVER_PORT}/
 ```
-（使用环境变量，需要先执行 `source /root/.openclaw/workspace/scripts/load-env.sh`）
+
+---
+
+## 故障排除
+
+### 端口被占用
+
+```bash
+# 查看占用端口的进程
+lsof -i :8080
+
+# 强制杀掉
+lsof -ti:8080 | xargs kill -9
+```
+
+### 服务启动失败
+
+```bash
+# 查看详细日志
+journalctl -u openclaw-http.service -n 50
+
+# 手动启动测试
+cd /root/.openclaw/workspace/data
+python3 -m http.server 8080
+```
+
+### 外网无法访问
+
+- 检查云服务器安全组是否开放 8080 端口
+- 检查防火墙：`firewall-cmd --list-ports`
 
 ---
 
@@ -90,3 +163,17 @@ http://${SERVER_IP}:${SERVER_PORT}/
 
 **重要**：需要在云控制台安全组开放 8080 端口！
 
+---
+
+## 目录结构
+
+```
+/root/.openclaw/workspace/data/        # HTTP 根目录
+├── obsidian/                         # Obsidian 笔记
+│   ├── index.html
+│   ├── obsidian-guide.html
+│   ├── oc-guide.html
+│   └── szyffx.html
+├── h5-snake-game/                    # H5 游戏
+└── ...其他文件...
+```

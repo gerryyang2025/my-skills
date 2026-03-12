@@ -1,0 +1,7 @@
+{
+  "name": "obsidian-publisher",
+  "description": "Obs笔记发布工具idian  - 将笔记转换为静态网站，支持多种部署方式",
+  "version": "1.0.0",
+  "author": "OpenClaw",
+  "tags": ["obsidian", "static-site", "publish", "notes"]
+}

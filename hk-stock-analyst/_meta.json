@@ -1,0 +1,7 @@
+{
+  "name": "hk-stock-analyst",
+  "description": "港股每日动量报告 - 梁文涛 (Michael Leung) 高级量化交易策略师",
+  "version": "1.0.0",
+  "author": "OpenClaw",
+  "tags": ["港股", "股票分析", "交易策略", "每日报告"]
+}
