@@ -22,8 +22,10 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 ### 2. GitHub Trending
 使用 web_fetch 抓取 GitHub Trending：
 - 今日：`https://github.com/trending`
-- Python：`https://github.com/trending/python`
-- JavaScript：`https://github.com/trending/javascript`
+
+### 3. Dev.to AI Research
+使用 web_fetch 抓取 Dev.to AI 文章：
+- AI Research：`https://dev.to/t/ai?per_page=10`
 
 ## 筛选标准
 
@@ -33,6 +35,7 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 | TOP 政治 | 10条 | 国际关系、地缘政治、外交 |
 | TOP 科技 | 10条 | 航天、AI、科研突破 |
 | TOP GitHub | 10条 | 热门开源项目 |
+| TOP AI Research | 10条 | Dev.to 最新 AI 研究文章 |
 | 今日热议 | 1个 | 社交媒体争议话题 |
 
 ## 输出结构
@@ -41,12 +44,13 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 ```markdown
 ## 📋 目录
 
-- [☁️ 天气](#天气)
-- [📈 TOP 10 财经要闻](#top-10-财经要闻)
-- [🌍 TOP 10 政治要闻](#top-10-政治要闻)
-- [🚀 TOP 10 科技要闻](#top-10-科技要闻)
-- [💻 TOP 10 GitHub 热门](#top-10-github-热门)
-- [🔥 今日热议话题](#今日热议话题)
+- [☁️ 天气](#weather)
+- [📈 TOP 10 财经要闻](#finance)
+- [🌍 TOP 10 政治要闻](#politics)
+- [🚀 TOP 10 科技要闻](#tech)
+- [💻 TOP 10 GitHub 热门](#github)
+- 📚 TOP 10 AI Research (Dev.to) {#ai-research}
+- [🔥 今日热议话题](#hot-topic)
 ```
 
 ### 每条新闻三段式
@@ -64,11 +68,20 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 
 ### GitHub 仓库格式
 ```markdown
-### 💻 [仓库名] - ⭐ stars
+### 💻 [仓库名](链接) - ⭐ stars
 
 **描述：** 仓库简介
 
 **语言：** 编程语言
+```
+
+### Dev.to AI 文章格式
+```markdown
+### 📄 [文章标题](原文链接)
+
+**简介：** 文章摘要
+
+**标签：** #AI #ML
 ```
 
 ## 生成脚本
@@ -93,7 +106,7 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 3. **代码示例**：
 ```javascript
 // 添加 ID 到 h2 标题并清理 anchor 语法
-html = html.replace(/<h2>([☁️📈🌍🚀💻🔥]\s*)([^<]+)\s*\{#([^}]+)\}<\/h2>/g,
+html = html.replace(/<h2>([☁️📈🌍🚀💻🔥📄]\s*)([^<]+)\s*\{#([^}]+)\}<\/h2>/g,
   '<h2 id="$3">$1$2</h2>');
 // 清理残留
 html = html.replace(/\s*\{#[^}]+\}/g, '');
