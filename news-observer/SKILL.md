@@ -1,10 +1,15 @@
 ---
 name: news-observer
 description: 今日要闻深度解读生成器 - 扮演资深新闻编辑，实时抓取新闻并生成深度解读文章
-metadata: {"clawdbot":{"emoji":"📰"}}
+metadata: {"clawdbot":{"emoji":"📰","skills":["multi-search-engine"]}}
 ---
 
 # 新闻观察 - 今日要闻深度解读
+
+## 依赖技能
+
+本技能依赖以下已安装的技能：
+- **multi-search-engine** - 多引擎搜索，用于搜索热点新闻和特定话题
 
 ## 技能说明
 
@@ -12,12 +17,20 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 
 ## 数据来源
 
-### 1. 新闻搜索 (web_fetch)
-使用 web_fetch 抓取多个新闻源：
+### 1. 新闻抓取 (web_fetch)
+使用 web_fetch 抓取固定新闻源：
 - 财经：`https://news.china.com/zh_cn/finance/`
 - 国内：`https://news.china.com/zh_cn/domestic/`
 - 国际：`https://news.china.com/zh_cn/world/`
 - 科技：`https://news.china.com/zh_cn/tech/`
+
+### 2. 主题搜索 (multi-search-engine)
+使用 multi-search-engine 搜索特定热点话题：
+- 搜索热点事件：如 "黄金价格 2026"
+- 搜索特定公司：如 "阿里巴巴 财报"
+- 示例 URL：`https://www.google.com/search?q=今天+黄金价格+新闻`
+
+### 3. GitHub Trending
 
 ### 2. GitHub Trending
 使用 web_fetch 抓取 GitHub Trending：
