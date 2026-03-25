@@ -12,7 +12,7 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 
 ## 数据来源
 
-### 1. 新闻搜索 (multi-search-engine)
+### 1. 新闻搜索 (web_fetch)
 使用 web_fetch 抓取多个新闻源：
 - 财经：`https://news.china.com/zh_cn/finance/`
 - 国内：`https://news.china.com/zh_cn/domestic/`
@@ -22,17 +22,45 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 ### 2. GitHub Trending
 使用 web_fetch 抓取 GitHub Trending：
 - 今日：`https://github.com/trending`
+- 本周：`https://github.com/trending?since=weekly`
 
 ### 3. Dev.to AI Research
-使用 web_fetch 抓取 Dev.to AI 文章：
-- AI Research：`https://dev.to/t/ai?per_page=10`
+
+**使用 API 获取 AI 文章**：
+```
+https://dev.to/api/articles?tag=ai&per_page=10
+```
+
+API 返回 JSON 数据，字段说明：
+- `url` - 文章完整链接
+- `title` - 文章标题
+- `description` - 文章摘要
+- `user.name` - 作者名
+- `readable_publish_date` - 发布日期
+- `tags` - 标签
+
+**示例**：
+```json
+{
+  "title": "AI Writes Code. You Own Quality",
+  "url": "https://dev.to/helderberto/ai-writes-code-you-own-quality-19g0",
+  "description": "The more I use AI tools...",
+  "user": { "name": "Helder" },
+  "tags": "ai,programming"
+}
+```
+
+### 4. 天气
+```bash
+curl -s "wttr.in/Shenzhen?format=%t"
+```
 
 ## 筛选标准
 
 | 类别 | 数量 | 领域 |
 |------|------|------|
 | TOP 财经 | 10条 | 银行、证券、外贸、消费、能源 |
-| TOP 政治 | 10条 | 国际关系、地缘政治、外交 |
+| TOP 国内 | 10条 | 社会、民生、政策 |
 | TOP 科技 | 10条 | 航天、AI、科研突破 |
 | TOP GitHub | 10条 | 热门开源项目 |
 | TOP AI Research | 10条 | Dev.to 最新 AI 研究文章 |
@@ -46,10 +74,10 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 
 - [☁️ 天气](#weather)
 - [📈 TOP 10 财经要闻](#finance)
-- [🌍 TOP 10 政治要闻](#politics)
+- [🌍 TOP 10 国内要闻](#domestic)
 - [🚀 TOP 10 科技要闻](#tech)
 - [💻 TOP 10 GitHub 热门](#github)
-- 📚 TOP 10 AI Research (Dev.to) {#ai-research}
+- [📚 TOP 10 AI Research](#ai-research)
 - [🔥 今日热议话题](#hot-topic)
 ```
 
@@ -81,23 +109,36 @@ metadata: {"clawdbot":{"emoji":"📰"}}
 
 **简介：** 文章摘要
 
+**作者：** 作者名
+
 **标签：** #AI #ML
-```
-
-## 生成脚本
-
-```bash
-/root/.openclaw/workspace/scripts/daily-news.sh
 ```
 
 ## 输出要求
 
 - MD 文件：`today-news-YYYY-MM-DD.md`
-- HTML 文件：`today-news-YYYY-MM-DD.html`
+- HTML 文件：运行 `node generate.js` 自动生成
 - 目录：`/root/.openclaw/workspace/data/obsidian/`
 - 访问：`http://${SERVER_IP}:${SERVER_PORT}/obsidian/`（使用环境变量，需要先执行 `source /root/.openclaw/workspace/scripts/load-env.sh`）
 
+## 生成步骤
+
+```bash
+# 1. 创建 Markdown 文件
+cd /root/.openclaw/workspace/data/obsidian
+vim today-news-2026-03-25.md
+
+# 2. 运行 ob publisher 生成 HTML
+cd /root/.openclaw/workspace/codes/obsidian-publisher
+node generate.js
+```
+
 ## ⚠️ 重要注意事项
+
+### Dev.to API 使用
+- ❌ 不要使用 `/t/ai` 页面（需要登录）
+- ✅ 必须使用 API：`https://dev.to/api/articles?tag=ai&per_page=10`
+- API 无需认证，完全公开
 
 ### HTML 渲染问题修复
 生成 HTML 时需要注意：
@@ -117,4 +158,4 @@ html = html.replace(/\s*\{#[^}]+\}/g, '');
 
 ## 定时任务
 
-- 每天 7:35 自动执行
+- 每日要闻生成：每天 7:35
