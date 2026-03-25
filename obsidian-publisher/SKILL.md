@@ -77,6 +77,44 @@ const OUTPUT_DIR = "/你的输出目录路径";
 - ✅ 响应式布局（手机友好）
 - ✅ Wiki 链接 [[note]]
 - ✅ 英文文件名（避免中文编码问题）
+- ✅ 标题锚点（支持 {#id} 语法）
+
+## 标题锚点
+
+支持使用 `{#id}` 语法为标题添加锚点，方便目录跳转：
+
+```markdown
+## 天气 {#weather}
+
+## 财经要闻 {#finance}
+```
+
+生成的 HTML：
+```html
+<h2 id="weather">天气</h2>
+<h2 id="finance">财经要闻</h2>
+```
+
+目录中使用：
+```markdown
+- [天气](#weather)
+- [财经要闻](#finance)
+```
+
+### 自动生成 ID
+
+如果不手动指定 `{#id}`，系统会自动根据标题文本生成 ID：
+
+```markdown
+## 深圳一手房市场分析
+```
+
+生成的 HTML：
+```html
+<h2 id="shenzhen-yishoufang-shichang-fenxi">深圳一手房市场分析</h2>
+```
+
+> ⚠️ **注意**：建议手动指定 `{#id}`，自动生成的 ID 可能包含中文字符转换，不够简洁。
 
 ## 📝 笔记写作规范（必读）
 
@@ -85,13 +123,13 @@ const OUTPUT_DIR = "/你的输出目录路径";
 ### 1. 文件命名
 
 - 中文标题会自动转为英文 slug
-- 标题中应包含明确关键词，如"港股每日动量报告"
+- 标题中应包含明确关键词，如"港股每日报告"
 
 ### 2. Frontmatter 格式
 
 ```yaml
 ---
-title: 港股每日动量报告 - 2026年3月11日
+title: 港股每日报告 - 2026年3月11日
 date: 2026-03-11
 tags: [港股, 每日报告, 动量报告, 梁文涛]
 ---
@@ -114,7 +152,7 @@ tags: [港股, 每日报告, 动量报告, 梁文涛]
 
 ### 4. 标题规范
 
-- 文章内的一级标题 `#` 应包含完整标题，如 `# 📊 港股每日动量报告 - 2026年3月11日`
+- 文章内的一级标题 `#` 应包含完整标题，如 `# 📊 港股每日报告 - 2026年3月11日`
 - 不要遗漏关键词（港股、美股等）
 
 ### 4. 发布流程
@@ -236,6 +274,27 @@ curl -s http://127.0.0.1:8080/obsidian/ | head -5
 ```bash
 cd /root/.openclaw/workspace/codes/obsidian-publisher && node generate.js
 ```
+
+### 目录跳转链接失效
+
+如果目录中的锚点链接无法跳转，可能是以下原因：
+
+1. **标题未添加 ID**：检查 Markdown 源文件中标题是否使用了 `{#id}` 语法
+   ```markdown
+   ## 天气 {#weather}
+   ```
+
+2. **重新生成**：修改标题后需要重新生成 HTML
+   ```bash
+   cd /root/.openclaw/workspace/codes/obsidian-publisher
+   node generate.js
+   cp *.html /root/.openclaw/workspace/data/obsidian/
+   ```
+
+3. **验证 ID**：检查生成的 HTML 文件中标题是否有正确的 id 属性
+   ```bash
+   grep 'h2.*id=' /root/.openclaw/workspace/codes/obsidian-publisher/xxx.html
+   ```
 
 ### 外网无法访问
 
