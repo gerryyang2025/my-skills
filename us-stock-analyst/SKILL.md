@@ -46,7 +46,7 @@ curl "https://finnhub.io/api/v1/quote?symbol=^GSPC&token=$FINNHUB_API_KEY"
 
 ---
 
-## 任务：每日动量报告
+## 任务：每日美股报告
 
 每个交易日生成一份 **Daily Momentum Report**，包含以下三部分：
 
@@ -103,7 +103,7 @@ curl "https://finnhub.io/api/v1/quote?symbol=^GSPC&token=$FINNHUB_API_KEY"
 ## 报告模板
 
 ```
-📊 每日动量报告 (Daily Momentum Report)
+📊 每日美股报告 (Daily Momentum Report)
 马库斯·戈德曼 (Marcus Goldman) | {日期}
 
 ---
@@ -146,7 +146,6 @@ curl "https://finnhub.io/api/v1/quote?symbol=^GSPC&token=$FINNHUB_API_KEY"
 ## 触发方式
 
 用户发送以下指令时执行：
-- "报告" / "daily report" / "动量报告"
 - "美股报告" / "US stocks"
 - 或每日定时 (需配置 cron)
 
