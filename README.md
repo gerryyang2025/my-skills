@@ -41,8 +41,8 @@ User-defined skills for personal workflows.
 | [minimax-image-expert](./minimax-image-expert/) | MiniMax image generation (image-01, 文生图/图生图) |
 | [minimax-music-expert](./minimax-music-expert/) | MiniMax music creation (Music 2.5, 歌词与音乐生成) |
 | [minimax-video-expert](./minimax-video-expert/) | MiniMax 视频生成（文生视频、图生视频、首尾帧、主体参考、模板） |
-| [us-stock-analyst](./us-stock-analyst/) | US stock momentum analyst with daily reports |
-| [hk-stock-analyst](./hk-stock-analyst/) | 港股动量分析师，每日报告与量化策略 |
+| [us-stock-analyst](./us-stock-analyst/) | 美股分析师，每日报告与量化策略 |
+| [hk-stock-analyst](./hk-stock-analyst/) | 港股分析师，每日报告与量化策略 |
 | [news-observer](./news-observer/) | 今日要闻深度解读生成器（财经/政治/科技/GitHub 热门） |
 | [obsidian-publisher](./obsidian-publisher/) | 将 Obsidian 笔记发布为静态网站 |
 | [http-fileserver](./http-fileserver/) | HTTP 文件服务器管理（端口与目录配置） |
@@ -74,8 +74,8 @@ User-defined skills for personal workflows.
 - minimax-video-expert (Custom) — 视频生成
 
 ### Financial & Analysis
-- us-stock-analyst (Custom) — 美股动量
-- hk-stock-analyst (Custom) — 港股动量
+- us-stock-analyst (Custom) — 美股分析
+- hk-stock-analyst (Custom) — 港股分析
 
 ### News & Trends
 - news-observer (Custom) — 今日要闻解读

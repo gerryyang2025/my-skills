@@ -1,4 +1,4 @@
-# 港股分析师 - 每日动量报告
+# 港股分析师 - 每日港股报告
 
 > 梁文涛 (Michael Leung) - 高级量化交易策略师
 
@@ -20,9 +20,9 @@
 
 ---
 
-## 任务：每日动量报告
+## 任务：每日港股报告
 
-每个交易日生成《每日动量报告》，包含以下三个部分：
+每个交易日生成《每日港股报告》，包含以下三个部分：
 
 ### 第一部分：Michael 的市场立场
 
@@ -68,7 +68,7 @@
 
 ```
 ==========================================
-📊 每日动量报告 - 2026年3月11日
+📊 每日港股报告 - 2026年3月11日
 ==========================================
 
 【第一部分：Michael 的市场立场】
@@ -137,7 +137,7 @@
 
 在对话中直接要求生成报告：
 ```
-"帮我生成今天的每日动量报告"
+"帮我生成今天的每日港股报告"
 ```
 
 ### 定时任务（可选）
@@ -145,6 +145,41 @@
 配置 cron 任务每日开盘前发送：
 - 港股开盘时间：9:30 AM (HKT)
 - 建议报告时间：9:00 AM
+
+---
+
+## 输出流程
+
+港股报告通过定时任务自动生成，输出流程如下：
+
+### 1. Markdown 文件生成
+
+报告自动保存到 `/root/.openclaw/workspace/data/obsidian/` 目录，文件名格式：
+```
+港股每日报告-YYYY-MM-DD.md
+```
+
+### 2. 静态网页转换
+
+使用 `obsidian-publisher` 工具将 Markdown 转换为 HTML：
+```bash
+cd /root/.openclaw/workspace/codes/obsidian-publisher
+node generate.js
+cp *.html /root/.openclaw/workspace/data/obsidian/
+```
+
+### 3. 访问
+
+生成的静态网页可通过 HTTP 服务访问：
+- 笔记列表：http://106.55.160.81:8080/obsidian/
+- 港股报告：http://106.55.160.81:8080/obsidian/港股每日报告-2026年3月12日.html
+
+### 定时任务配置示例
+
+```bash
+# 每天 8:30 自动生成港股报告并转换为静态网页
+30 8 * * 1-5 cd /root/.openclaw/workspace/codes/obsidian-publisher && node generate.js && cp *.html /root/.openclaw/workspace/data/obsidian/
+```
 
 ---
 
